@@ -9,6 +9,7 @@ import requests
 import re
 import pandas as pd
 import numpy as np
+import time
 
 # create function to get single-season standings
 def getNHLSeason(url):
@@ -64,6 +65,9 @@ while season_counter > 1917:
         season_counter -= 1
     except Exception as e: print(e)
 
+    # pause python to prevent overload of requests
+    time.sleep(5)
+
 print("All done!")
 
 # remove any duplicate values for QA
@@ -79,9 +83,3 @@ full_team_stats["Team"] = full_team_stats["Team"].str.replace("*", "")
 full_team_stats.to_csv("Data/NHLStandingsAllTime.csv", index = False)
 
 
-# remove enviroment variables
-del full_team_stats
-del season_counter
-del stats
-del url
-del year
